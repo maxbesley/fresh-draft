@@ -18,9 +18,9 @@ jobs:
     name: Publish image to ghcr.io
     runs-on: ubuntu-latest
 
-#   permissions:
+    permissions:
 #     contents: read
-#     packages: write
+      packages: write
 #     id-token: write
 
     steps:
