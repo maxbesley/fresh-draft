@@ -14,7 +14,7 @@ services:
       - $PWD/infra/caddy/Caddyfile:/etc/caddy/Caddyfile
   app:
     container_name: app
-    build: infra/docker
+    image: ghcr.io/maxbesley/fresh-app:latest
     ports:
       - 9000:9000
 
