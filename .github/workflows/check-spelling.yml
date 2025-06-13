@@ -5,6 +5,8 @@ name: Check for spelling errors
 on:
   push:
     branches: main
+    paths:
+      - app/**
   pull_request:
   workflow_dispatch:
 

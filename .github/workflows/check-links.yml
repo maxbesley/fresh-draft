@@ -5,6 +5,8 @@ name: Check for any broken URLs
 on:
   push:
     branches: main
+    paths:
+      - app/**
   pull_request:
   workflow_dispatch:
 
