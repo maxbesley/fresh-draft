@@ -1,0 +1,27 @@
+name: Deploy Docker Compose to a VPS
+
+on:
+  push:
+    branches: main
+    paths:
+      - compose.yml
+      - infra/caddy/**
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Copy over Caddyfile via SSH
+        uses: appleboy/scp-action@v1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: "tests/a.txt,tests/b.txt"
+          target: your_server_target_folder_path
+
