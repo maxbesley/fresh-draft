@@ -11,10 +11,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Create folder
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: mkdir ~/fresh-app
 
       - name: Copy over Caddyfile via SSH
         uses: appleboy/scp-action@v1.0
@@ -24,8 +33,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: infra/caddy/Caddyfile
-          target: infra/caddy/
-      
+          target: ~/fresh-app/infra/caddy
+
+      - name: Copy over Caddyfile via SSH
+        uses: appleboy/scp-action@v1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: compose.yml
+          target: ~/fresh-app
+
       - name: Deploy Docker image
         uses: appleboy/ssh-action@v1.2.2
         with:
@@ -35,4 +54,5 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd ~/fresh-app
-            
+            docker compose up --detach
+
