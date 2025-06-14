@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: mkdir ~/fresh-app
+          script: mkdir -p ~/fresh-app
 
       - name: Copy over Caddyfile via SSH
         uses: appleboy/scp-action@v1
