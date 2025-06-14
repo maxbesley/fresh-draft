@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create folder
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -33,7 +33,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: infra/caddy/Caddyfile
-          target: ~/fresh-app/infra/caddy
+          target: ~/fresh-app
 
       - name: Copy over Caddyfile via SSH
         uses: appleboy/scp-action@v1
@@ -46,7 +46,7 @@ jobs:
           target: ~/fresh-app
 
       - name: Deploy Docker image
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
