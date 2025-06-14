@@ -4,7 +4,7 @@ USER deno
 
 WORKDIR /fresh
 
-COPY . .
+COPY app .
 
 RUN deno cache main.ts
 
