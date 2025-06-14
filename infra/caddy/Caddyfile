@@ -1,3 +1,3 @@
-example.com {
+209.38.86.186 {
   reverse_proxy app:9000
 }

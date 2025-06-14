@@ -5,7 +5,7 @@ on:
     branches: main
     paths:
       - app/**
-      - infra/docker/**
+      - Dockerfile
   workflow_dispatch:
 
 env:
