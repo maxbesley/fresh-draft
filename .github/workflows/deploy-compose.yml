@@ -5,8 +5,11 @@ on:
     branches: main
     paths:
       - compose.yml
-      - infra/caddy/**
+      - infra/caddy/Caddyfile
   workflow_dispatch:
+
+env:
+  PROJECT_DIR: ~/fresh-app
 
 jobs:
   deploy:
@@ -23,7 +26,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: mkdir -p ~/fresh-app
+          script: mkdir -p ${{ env.PROJECT_DIR }}
 
       - name: Copy over Caddyfile via SSH
         uses: appleboy/scp-action@v1
@@ -33,9 +36,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: infra/caddy/Caddyfile
-          target: ~/fresh-app
+          target: ${{ env.PROJECT_DIR }}
 
-      - name: Copy over Caddyfile via SSH
+      - name: Copy over compose.yml via SSH
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -43,7 +46,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: compose.yml
-          target: ~/fresh-app
+          target: ${{ env.PROJECT_DIR }}
 
       - name: Deploy Docker image
         uses: appleboy/ssh-action@v1.2.2
@@ -53,6 +56,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd ~/fresh-app
+            cd ${{ env.PROJECT_DIR }}
             docker compose up --detach
 
