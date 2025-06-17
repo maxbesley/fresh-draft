@@ -15,8 +15,6 @@ services:
   app:
     container_name: app
     image: ghcr.io/maxbesley/fresh-app
-    ports:
-      - 9000:9000
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower
