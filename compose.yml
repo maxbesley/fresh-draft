@@ -9,7 +9,9 @@ services:
       - 443:443
       - 443:443/udp
     volumes:
-      - caddy_data:/data
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
+      - caddy_data:/data  # is this volume needed?
       - caddy_config:/config
       - $PWD/infra/caddy/Caddyfile:/etc/caddy/Caddyfile
   app:

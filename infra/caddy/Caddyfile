@@ -1,3 +1,4 @@
 maxbesley.com {
+  tls /etc/ssl/certs/certificate.pem /etc/ssl/private/key.pem  # Cloudflare Origin CA certificate
   reverse_proxy app:9000
 }
