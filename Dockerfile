@@ -1,13 +1,11 @@
-FROM node:22
+FROM denoland/deno:2.3.7
 
-WORKDIR /node
+WORKDIR /app
 
-COPY app/package.json .
+COPY app .
 
-RUN npm install
-
-COPY app/server.js .
+RUN deno cache main.ts
 
 EXPOSE 9000
 
-CMD ["npm", "start"]
+CMD ["deno", "run", "--allow-net", "main.ts"]
